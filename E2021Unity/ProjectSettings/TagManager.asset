@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - enemy
+  - lamppost
   layers:
   - Default
   - TransparentFX
