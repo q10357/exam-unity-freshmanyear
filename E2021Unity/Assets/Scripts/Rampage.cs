@@ -9,9 +9,11 @@ public class Rampage : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
+		Debug.Log("Colliding with" + other);
 		//Checks if the object colliding with powerup is the player
 		if (other.CompareTag("Player"))
 		{
+			Debug.Log("colliding with player");
 			PickUp(other);
 		}
 	}
