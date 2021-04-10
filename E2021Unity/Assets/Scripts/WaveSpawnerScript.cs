@@ -26,6 +26,7 @@ public class WaveSpawnerScript : MonoBehaviour
 	public Transform SpawnPoint2;
 	public Transform SpawnPoint3;
 	private int loopCount;
+	
 
 	public enum SpawnState { SPAWNING, KILLING, COUNTING};
 	public SpawnState state = SpawnState.KILLING;
@@ -105,6 +106,7 @@ public class WaveSpawnerScript : MonoBehaviour
 		if(loopcounter % 3 == 0)
 		{
 			Instantiate(enemy_, SpawnPoint1.position, transform.rotation);
+			//adding collider, centering the collider and freezing rigidbody rotation
 			CapsuleCollider cp = enemy_.gameObject.AddComponent<CapsuleCollider>();
 			
 			cp.height = 2;
@@ -117,6 +119,7 @@ public class WaveSpawnerScript : MonoBehaviour
 		else if (loopcounter % 3 == 1)
 		{
 			Instantiate(enemy_, SpawnPoint2.position, transform.rotation);
+			//adding collider, centering the collider and freezing rigidbody rotation
 			CapsuleCollider cp = enemy_.gameObject.AddComponent<CapsuleCollider>();
 			cp.height = 2;
 			cp.center = new Vector3(0f, 1.3f, 0f);
@@ -126,21 +129,14 @@ public class WaveSpawnerScript : MonoBehaviour
 		else if(loopcounter % 3 == 2)
 		{
 			Instantiate(enemy_, SpawnPoint3.position, transform.rotation);
+			//adding collider, centering the collider and freezing rigidbody rotation
 			CapsuleCollider cp = enemy_.gameObject.AddComponent<CapsuleCollider>();
 			cp.height = 2;
 			cp.center = new Vector3(0f, 1.1f, 0f);
 			Rigidbody rb = enemy_.gameObject.GetComponent<Rigidbody>();
 			rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 		}
-	
-		//1
-		
-		//2
-		
-		//2
-		
-		
-		
+
 
 	}
 	//method to check if enemies are alive with a timer to not check each frame
