@@ -22,9 +22,10 @@ public class WaveSpawnerScript : MonoBehaviour
 	public float countdownSearch = 1f;
 	public float timeBetween = 6f;
 	public float waveCountDown;
-	public Transform SpawnPoint;
-	//public Transform SpawnPoint1;
-	//public Transform SpawnPoint2;
+	public Transform SpawnPoint1;
+	public Transform SpawnPoint2;
+	public Transform SpawnPoint3;
+	private int loopCount;
 
 	public enum SpawnState { SPAWNING, KILLING, COUNTING};
 	public SpawnState state = SpawnState.KILLING;
@@ -44,7 +45,7 @@ public class WaveSpawnerScript : MonoBehaviour
 			{
 				state = SpawnState.COUNTING;
 				waveCountDown = timeBetween;
-				Debug.Log("Wave not started or wave complete");
+				//Debug.Log("Wave not started or wave complete");
 			
 			}
 			else {
@@ -80,7 +81,8 @@ public class WaveSpawnerScript : MonoBehaviour
 
 		for(int i = 0; i < wave_.count; i++)
 		{
-			SpawnEnemy(wave_.enemyPreFab);
+			loopCount = i;
+			SpawnEnemy(wave_.enemyPreFab, loopCount);
 
 			//makes a delay for each enemy
 			
@@ -94,32 +96,71 @@ public class WaveSpawnerScript : MonoBehaviour
 		yield break;
 	}
 
-	void SpawnEnemy(Transform enemy_)
+	void SpawnEnemy(Transform enemy_, int loopcounter)
 	{
-		Debug.Log("Trying  to spawn");
+		//Debug.Log("Trying  to spawn");
 		//spawning one enemy
-		Instantiate(enemy_, SpawnPoint.position, transform.rotation);
+
+		//alternates beetween the 3 spawns with modulus
+		if(loopcounter % 3 == 0)
+		{
+			Instantiate(enemy_, SpawnPoint1.position, transform.rotation);
+			CapsuleCollider cp = enemy_.gameObject.AddComponent<CapsuleCollider>();
+			
+			cp.height = 2;
+			cp.center = new Vector3(0f, 1.5f, 0f);
+			Rigidbody rb = enemy_.gameObject.GetComponent<Rigidbody>();
+			rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+			
+			
+		}
+		else if (loopcounter % 3 == 1)
+		{
+			Instantiate(enemy_, SpawnPoint2.position, transform.rotation);
+			CapsuleCollider cp = enemy_.gameObject.AddComponent<CapsuleCollider>();
+			cp.height = 2;
+			cp.center = new Vector3(0f, 1.3f, 0f);
+			Rigidbody rb = enemy_.gameObject.GetComponent<Rigidbody>();
+			rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+		} 
+		else if(loopcounter % 3 == 2)
+		{
+			Instantiate(enemy_, SpawnPoint3.position, transform.rotation);
+			CapsuleCollider cp = enemy_.gameObject.AddComponent<CapsuleCollider>();
+			cp.height = 2;
+			cp.center = new Vector3(0f, 1.1f, 0f);
+			Rigidbody rb = enemy_.gameObject.GetComponent<Rigidbody>();
+			rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+		}
+	
+		//1
+		
+		//2
+		
+		//2
+		
+		
 		
 
 	}
 	//method to check if enemies are alive with a timer to not check each frame
 	bool CheckEnemyAlive()
 	{
-		Debug.Log("checking enemy alive");
+		
 		countdownSearch -= Time.deltaTime;
 		if(countdownSearch <= 0f)
 		{
 			countdownSearch = 1f;
-			Debug.Log("countdownsearch udner 0 ");
+			
 			if (GameObject.FindGameObjectWithTag("enemy") == null)
 			{
-				Debug.Log("Found no enemy bitch");
+				//didn't found an enemy returning false
 				return false;
 			}
 		}
 
-		//found enemy with enemyTag
-		Debug.Log("Found enemy bitch");
+		//found enemy with enemyTag enemy returning true
+		
 		return true; 
 	}
 }
