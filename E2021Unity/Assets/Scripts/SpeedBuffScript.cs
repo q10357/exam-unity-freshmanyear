@@ -22,6 +22,7 @@ public class SpeedBuffScript : MonoBehaviour
 		Debug.Log("Speed engaged");
 		FirstPersonController stats = other.GetComponent<FirstPersonController>();
 		stats.m_RunSpeed *= speedbuff;
+		
 
 
 		//wait some seconds before reverting the buff
